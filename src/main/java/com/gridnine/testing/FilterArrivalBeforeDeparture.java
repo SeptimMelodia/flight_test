@@ -2,17 +2,15 @@ package com.gridnine.testing;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FilterArrivalBeforeDeparture implements Filter{
 
-    private final List<Flight> flights;
-
-    public FilterArrivalBeforeDeparture(List<Flight> flights) {
-        this.flights = flights;
-    }
-
     @Override
-    public List<Flight> filter() {
-        return flights;
+    public List<Flight> filter(List<Flight> flights) {
+        return flights.stream()
+                .filter(flight -> flight.getSegments().stream()
+                        .anyMatch(segment -> segment.getArrivalDate().isAfter(segment.getDepartureDate())))
+                .collect(Collectors.toList());
     }
 }

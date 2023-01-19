@@ -6,14 +6,8 @@ import java.util.stream.Collectors;
 
 public class FilterDepartureUntilNow implements Filter{
 
-    private final List<Flight> flights;
-
-    public FilterDepartureUntilNow(List<Flight> flights) {
-        this.flights = flights;
-    }
-
     @Override
-    public List<Flight> filter() {
+    public List<Flight> filter(List<Flight> flights) {
         return flights.stream()
                 .filter(flight -> flight.getSegments().stream()
                         .anyMatch(segment -> segment.getDepartureDate().isAfter(LocalDateTime.now())))
